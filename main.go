@@ -30,7 +30,13 @@ func executeRound() string {
 	interaction.ShowAvailableActions(isSpecialRound)
 	userChoice := interaction.GetPlayerChoice(isSpecialRound)
 
-	fmt.Println(userChoice)
+	if userChoice == "ATTACK" {
+
+	} else if userChoice == "HEAL" {
+
+	} else {
+
+	}
 
 	return ""
 }
