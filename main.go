@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/monsterslayer/acitons"
 	"github.com/monsterslayer/interaction"
 )
 
 var currentRound = 0
+var gameRounds = []interaction.RoundData{}
 
 func main() {
 	startGame()
@@ -16,7 +16,7 @@ func main() {
 		winner = executeRound()
 	}
 
-	endGame()
+	endGame(winner)
 }
 
 func startGame() {
@@ -30,17 +30,46 @@ func executeRound() string {
 	interaction.ShowAvailableActions(isSpecialRound)
 	userChoice := interaction.GetPlayerChoice(isSpecialRound)
 
+	var playerHealth int
+	var monsterHealth int
+	var playerAttackDmg int
+	var playerHealValue int
+	var monsterAttackDmg int
+
 	if userChoice == "ATTACK" {
-
+		playerAttackDmg = acitons.AttackMonster(false)
 	} else if userChoice == "HEAL" {
-
+		playerHealValue = acitons.HealPlayer()
 	} else {
+		playerAttackDmg = acitons.AttackMonster(true)
+	}
 
+	monsterAttackDmg = acitons.AttackPlayer()
+	playerHealth, monsterHealth = acitons.GetHealthAmounts()
+
+	roundData := interaction.RoundData{
+		Action:           userChoice,
+		PlayerHealth:     playerHealth,
+		MonsterHelath:    monsterHealth,
+		PlayerAttackDmg:  playerAttackDmg,
+		PlayerHealValue:  playerHealValue,
+		MonsterAttackDmg: monsterAttackDmg,
+	}
+
+	roundData.PrintRoundStatisctic()
+
+	gameRounds = append(gameRounds, roundData)
+
+	if playerHealth <= 0 {
+		return "Monster"
+	} else if monsterHealth <= 0 {
+		return "Player"
 	}
 
 	return ""
 }
 
-func endGame() {
-
+func endGame(winner string) {
+	interaction.DeclareWinner(winner)
+	interaction.WriteLogFile(&gameRounds)
 }
