@@ -57,7 +57,18 @@ func DeclareWinner(winner string) {
 }
 
 func WriteLogFile(rounds *[]RoundData) {
-	file, err := os.Create("gamelog.txt")
+	// for "go build" ------- start
+	// exPath, err := os.Executable()
+
+	// if err != nil {
+	// 	fmt.Println("Writing a log file failed. Exiting.")
+	// }
+
+	// exPath = filepath.Dir(exPath)
+
+	// file, err := os.Create(exPath + "/gamelog.txt")
+	// for "go build" ------- finish
+	file, err := os.Create("gamelog.txt") // for "go run"
 	if err != nil {
 		fmt.Println("Saving a log file failed. Exiting")
 		return
