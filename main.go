@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"github.com/monsterslayer/interaction"
+)
 
 func main() {
 	startGame()
@@ -14,7 +16,7 @@ func main() {
 }
 
 func startGame() {
-
+	interaction.PrintGreeting()
 }
 
 func executeRound() string {
